@@ -4,30 +4,39 @@ using UnityEngine.InputSystem;
 
 public class Main_Player : MonoBehaviour
 {
-    [SerializeField] protected int health = 100;
-    [SerializeField] protected GameObject candy;
+    [Header("Componentes")]
     public InputSystem_Actions inputs;
-    public Rigidbody2D rb;
+    public Transform flashlight; // arrastra aquí tu Light 2D (Spot)
 
-    public Vector2 moveInput;
+    [Header("Movimiento")]
+    public float walkSpeed = 4f;
+    public float runSpeed = 8f;
+    private Vector2 moveInput;
+    private Vector2 lookDirection = Vector2.down; // dirección inicial
+    private bool isRunning;
 
-    public float moveSpeed = 5f;
-    public float PlayerHp;
-    public float KnockbackForce;
-
-    public Transform flashlight;
+    [Header("Estamina")]
+    public float stamina = 100f;
+    public float maxStamina = 100f;
+    public float staminaDrain = 20f;
+    public float staminaRegen = 10f;
 
     private void Awake()
     {
         inputs = new InputSystem_Actions();
+        stamina = maxStamina;
     }
 
     private void OnEnable()
     {
         inputs.Enable();
+
         inputs.Player.Move.started += OnMove;
         inputs.Player.Move.performed += OnMove;
         inputs.Player.Move.canceled += OnMove;
+
+        inputs.Player.Run.started += ctx => isRunning = true;
+        inputs.Player.Run.canceled += ctx => isRunning = false;
     }
 
     private void OnDisable()
@@ -35,25 +44,58 @@ public class Main_Player : MonoBehaviour
         inputs.Player.Move.started -= OnMove;
         inputs.Player.Move.performed -= OnMove;
         inputs.Player.Move.canceled -= OnMove;
+
+        inputs.Player.Run.started -= ctx => isRunning = true;
+        inputs.Player.Run.canceled -= ctx => isRunning = false;
+
         inputs.Disable();
     }
 
     private void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
+        if (moveInput != Vector2.zero)
+            lookDirection = moveInput;
     }
 
-    void Update()
+    private void Update()
     {
+        HandleMovement();
+        HandleRotation();
+    }
 
-        Vector2 move = moveInput.normalized;
-        transform.position += (Vector3)move * moveSpeed * Time.deltaTime;
+    private void HandleMovement()
+    {
+        float currentSpeed = walkSpeed;
 
-
-        if (move != Vector2.zero)
+        if (isRunning && stamina > 0 && moveInput != Vector2.zero)
         {
-            float angle = Mathf.Atan2(move.y, move.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
+            currentSpeed = runSpeed;
+            stamina -= staminaDrain * Time.deltaTime;
         }
+        else
+        {
+            stamina += staminaRegen * Time.deltaTime;
+        }
+
+        stamina = Mathf.Clamp(stamina, 0, maxStamina);
+
+        transform.position += (Vector3)(moveInput * currentSpeed * Time.deltaTime);
+    }
+
+    private void HandleRotation()
+    {
+        if (lookDirection == Vector2.zero) return;
+
+        
+        float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg;
+
+        
+        transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
+        
+
+       
+        if (flashlight != null)
+            flashlight.rotation = Quaternion.Euler(0, 0, angle - 90f);
     }
 }
