@@ -7,7 +7,6 @@ public class Candy : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-
             collision.GetComponent<GameManager>().contador++;
             print("ya extrañaba los dulces normales");
             Destroy(gameObject);
