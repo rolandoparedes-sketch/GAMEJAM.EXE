@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class WeaponPickup : MonoBehaviour
 {
-    public GameObject weaponPrefab; // Prefab del arma que el jugador va a equipar
+    public GameObject weaponPrefab; 
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -11,8 +11,8 @@ public class WeaponPickup : MonoBehaviour
             Main_Player player = other.GetComponent<Main_Player>();
             if (player != null)
             {
-                player.EquipWeapon(weaponPrefab); // Le damos el arma al jugador
-                Destroy(gameObject); // Desaparece del mapa
+                player.EquipWeapon(weaponPrefab); 
+                Destroy(gameObject); 
             }
         }
     }
