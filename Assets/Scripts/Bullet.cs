@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float speed = 10f;           // Velocidad de la bala
-    public float lifeTime = 3f;         // Cuánto dura antes de destruirse
-    public float confuseDuration = 3f;  // Tiempo que el enemigo queda confundido
-    public int damage = 1;              // Daño que causa
+    public float speed = 10f;           
+    public float lifeTime = 3f;         
+    public float confuseDuration = 3f;  
+    public int damage = 1;              
 
     private Rigidbody2D rb;
 
@@ -14,10 +14,10 @@ public class Bullet : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
-        // Aplica movimiento hacia adelante desde donde apunta el arma
+        
         rb.linearVelocity = transform.up * speed;
 
-        // Destruye la bala después del tiempo de vida
+        
         Destroy(gameObject, lifeTime);
     }
 
@@ -32,7 +32,7 @@ public class Bullet : MonoBehaviour
                 enemy.Confuse(confuseDuration);
             }
 
-            // Destruye la bala al impactar
+            
             Destroy(gameObject);
         }
     }

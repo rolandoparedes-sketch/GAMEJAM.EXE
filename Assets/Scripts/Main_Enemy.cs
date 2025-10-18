@@ -9,19 +9,19 @@ public class Main_Enemy : MonoBehaviour
     public float stopDistance = 0.5f;
     public float visionRange = 10f;
     public int health = 3;
-    public float respawnDelay = 7f; // segundos para reaparecer
+    public float respawnDelay = 7f; 
 
     private bool isIlluminated = false;
     private Rigidbody2D rb;
 
     private bool isConfused = false;
     private float confuseTimer = 0f;
-    private Vector2 initialPosition; // Guarda el punto inicial del enemigo
+    private Vector2 initialPosition; 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        initialPosition = transform.position; // Guarda el punto base
+        initialPosition = transform.position; 
 
         Collider2D col = GetComponent<Collider2D>();
         if (col != null)
@@ -32,7 +32,7 @@ public class Main_Enemy : MonoBehaviour
     {
         if (player == null || flashlight == null) return;
 
-        // Si está confundido, no se mueve
+        
         if (isConfused)
         {
             confuseTimer -= Time.deltaTime;
@@ -89,29 +89,29 @@ public class Main_Enemy : MonoBehaviour
         if (health <= 0)
         {
             StartCoroutine(RespawnAfterDelay());
-            gameObject.SetActive(false); // lo desactiva temporalmente
+            gameObject.SetActive(false); 
         }
     }
 
-    // Confundir enemigo por cierta duración
+    
     public void Confuse(float duration)
     {
         isConfused = true;
         confuseTimer = duration;
     }
 
-    // Corrutina de respawn
+    
     IEnumerator RespawnAfterDelay()
     {
         yield return new WaitForSeconds(respawnDelay);
 
-        // Nueva posición aleatoria cercana al punto inicial
+        
         Vector2 randomOffset = new Vector2(Random.Range(-5f, 5f), Random.Range(-5f, 5f));
         transform.position = initialPosition + randomOffset;
 
-        health = 3; // Restaura salud
-        isConfused = false; // Quita confusión
-        gameObject.SetActive(true); // Reactiva enemigo
+        health = 3; 
+        isConfused = false; 
+        gameObject.SetActive(true); 
     }
 }
 
