@@ -9,7 +9,7 @@ public class Candy : MonoBehaviour
         {
 
             collision.GetComponent<GameManager>().contador++;
-            print("Le sirvo comida al cliente");
+            print("ya extrañaba los dulces normales");
             Destroy(gameObject);
         }
     }
