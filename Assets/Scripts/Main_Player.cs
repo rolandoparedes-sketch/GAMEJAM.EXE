@@ -4,23 +4,22 @@ using UnityEngine.InputSystem;
 
 public class Main_Player : MonoBehaviour
 {
-    [Header("Componentes")]
+    
     public InputSystem_Actions inputs;
-    public Transform flashlight; // arrastra aquí tu Light 2D (Spot)
+    public Transform flashlight; 
 
-    [Header("Movimiento")]
     public float walkSpeed = 4f;
     public float runSpeed = 8f;
     private Vector2 moveInput;
-    private Vector2 lookDirection = Vector2.down; // dirección inicial
+    private Vector2 lookDirection = Vector2.down; 
     private bool isRunning;
 
-    [Header("Estamina")]
+   
     public float stamina = 100f;
     public float maxStamina = 100f;
     public float staminaDrain = 20f;
     public float staminaRegen = 10f;
-
+   
     private void Awake()
     {
         inputs = new InputSystem_Actions();
