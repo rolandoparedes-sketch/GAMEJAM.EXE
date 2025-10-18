@@ -4,18 +4,18 @@ using UnityEngine.InputSystem;
 
 public class Main_Player : MonoBehaviour
 {
-    public Transform firePoint;           
+    public Transform firePoint;
     public GameObject currentWeapon;
     public InputSystem_Actions inputs;
-    public Transform flashlight; 
+    public Transform flashlight;
 
     public float walkSpeed = 4f;
     public float runSpeed = 8f;
     private Vector2 moveInput;
-    private Vector2 lookDirection = Vector2.down; 
+    private Vector2 lookDirection = Vector2.down;
     private bool isRunning;
 
-   
+
     public float stamina = 100f;
     public float maxStamina = 100f;
     public float staminaDrain = 20f;
@@ -26,8 +26,8 @@ public class Main_Player : MonoBehaviour
     {
         if (other.CompareTag("Weapon"))
         {
-            currentWeapon = other.gameObject;    
-            other.gameObject.SetActive(false);   
+            currentWeapon = other.gameObject;
+            other.gameObject.SetActive(false);
             Debug.Log("Arma recogida!");
         }
     }
@@ -47,7 +47,11 @@ public class Main_Player : MonoBehaviour
         {
             Weapon weapon = currentWeapon.GetComponent<Weapon>();
             if (weapon != null)
-                weapon.Fire(firePoint.position, lookDirection);
+            {
+                
+                Vector2 shootDirection = transform.up; 
+                weapon.Fire(firePoint.position, shootDirection);
+            }
         }
     }
 
@@ -92,7 +96,7 @@ public class Main_Player : MonoBehaviour
     {
         HandleMovement();
         HandleRotation();
-        HandleShooting(); 
+        HandleShooting();
 
     }
 
@@ -119,15 +123,17 @@ public class Main_Player : MonoBehaviour
     {
         if (lookDirection == Vector2.zero) return;
 
-        
+
         float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg;
 
-        
-        transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
-        
 
-       
+        transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
+
+
+
         if (flashlight != null)
             flashlight.rotation = Quaternion.Euler(0, 0, angle - 90f);
     }
+
 }
+

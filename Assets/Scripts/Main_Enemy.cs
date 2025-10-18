@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Main_Enemy : MonoBehaviour
 {
@@ -7,21 +8,21 @@ public class Main_Enemy : MonoBehaviour
     public float chaseSpeed = 4f;
     public float stopDistance = 0.5f;
     public float visionRange = 10f;
+    public int health = 3;
+    public float respawnDelay = 7f; // segundos para reaparecer
 
     private bool isIlluminated = false;
     private Rigidbody2D rb;
 
-    public int health = 3;
-
-    
     private bool isConfused = false;
     private float confuseTimer = 0f;
+    private Vector2 initialPosition; // Guarda el punto inicial del enemigo
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        initialPosition = transform.position; // Guarda el punto base
 
-        
         Collider2D col = GetComponent<Collider2D>();
         if (col != null)
             col.isTrigger = true;
@@ -31,7 +32,7 @@ public class Main_Enemy : MonoBehaviour
     {
         if (player == null || flashlight == null) return;
 
-        
+        // Si está confundido, no se mueve
         if (isConfused)
         {
             confuseTimer -= Time.deltaTime;
@@ -39,7 +40,7 @@ public class Main_Enemy : MonoBehaviour
                 isConfused = false;
 
             rb.linearVelocity = Vector2.zero;
-            return; 
+            return;
         }
 
         DetectFlashlightHit();
@@ -75,25 +76,42 @@ public class Main_Enemy : MonoBehaviour
     void DetectFlashlightHit()
     {
         Vector2 lightDir = flashlight.up;
-        int layerMask = ~LayerMask.GetMask("Player"); 
+        int layerMask = ~LayerMask.GetMask("Player");
         RaycastHit2D hit = Physics2D.Raycast(flashlight.position, lightDir, visionRange, layerMask);
 
         isIlluminated = hit.collider != null && hit.collider.transform == transform;
     }
 
-    
+    // Recibir daño
     public void TakeDamage(int dmg)
     {
         health -= dmg;
         if (health <= 0)
-            Destroy(gameObject);
+        {
+            StartCoroutine(RespawnAfterDelay());
+            gameObject.SetActive(false); // lo desactiva temporalmente
+        }
     }
 
-    
+    // Confundir enemigo por cierta duración
     public void Confuse(float duration)
     {
         isConfused = true;
         confuseTimer = duration;
+    }
+
+    // Corrutina de respawn
+    IEnumerator RespawnAfterDelay()
+    {
+        yield return new WaitForSeconds(respawnDelay);
+
+        // Nueva posición aleatoria cercana al punto inicial
+        Vector2 randomOffset = new Vector2(Random.Range(-5f, 5f), Random.Range(-5f, 5f));
+        transform.position = initialPosition + randomOffset;
+
+        health = 3; // Restaura salud
+        isConfused = false; // Quita confusión
+        gameObject.SetActive(true); // Reactiva enemigo
     }
 }
 
