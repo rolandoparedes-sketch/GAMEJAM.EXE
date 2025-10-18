@@ -4,7 +4,8 @@ using UnityEngine.InputSystem;
 
 public class Main_Player : MonoBehaviour
 {
-    
+    public Transform firePoint;           
+    public GameObject currentWeapon;
     public InputSystem_Actions inputs;
     public Transform flashlight; 
 
@@ -19,7 +20,37 @@ public class Main_Player : MonoBehaviour
     public float maxStamina = 100f;
     public float staminaDrain = 20f;
     public float staminaRegen = 10f;
-   
+
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Weapon"))
+        {
+            currentWeapon = other.gameObject;    
+            other.gameObject.SetActive(false);   
+            Debug.Log("Arma recogida!");
+        }
+    }
+    public void EquipWeapon(GameObject weaponPrefab)
+    {
+        if (currentWeapon != null)
+            Destroy(currentWeapon);
+
+        currentWeapon = Instantiate(weaponPrefab, firePoint.position, firePoint.rotation, firePoint);
+    }
+
+    private void HandleShooting()
+    {
+        if (currentWeapon == null) return;
+
+        if (inputs.Player.Fire.triggered)
+        {
+            Weapon weapon = currentWeapon.GetComponent<Weapon>();
+            if (weapon != null)
+                weapon.Fire(firePoint.position, lookDirection);
+        }
+    }
+
     private void Awake()
     {
         inputs = new InputSystem_Actions();
@@ -61,6 +92,8 @@ public class Main_Player : MonoBehaviour
     {
         HandleMovement();
         HandleRotation();
+        HandleShooting(); 
+
     }
 
     private void HandleMovement()

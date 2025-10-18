@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Key
+  - Wall
+  - Weapon
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -12,8 +15,8 @@ TagManager:
   - Key
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Wall
   - 
   - 
   - 
@@ -41,6 +44,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Bullets
+    uniqueID: 3375989971
     locked: 0
   m_RenderingLayers:
   - Default
