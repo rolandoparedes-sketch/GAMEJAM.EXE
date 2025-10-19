@@ -3913,7 +3913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorColor: Green
-  sceneToLoad: Piso1
+  sceneToLoad: SalaPrincipal2
   spawnPosition: {x: 0, y: 0}
   changeScene: 1
 --- !u!1001 &1119719076
