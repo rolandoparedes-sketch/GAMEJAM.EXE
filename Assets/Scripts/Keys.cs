@@ -12,8 +12,8 @@ public class Keys : MonoBehaviour
             if (playerKeys != null)
             {
                 playerKeys.AddKey(keyColor);
-                Debug.Log("Recogiste la llave " + keyColor);
-                Destroy(gameObject); // Desaparece la llave
+                
+                Destroy(gameObject);
             }
         }
     }

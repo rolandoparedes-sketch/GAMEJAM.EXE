@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerKeys : MonoBehaviour
@@ -8,7 +8,6 @@ public class PlayerKeys : MonoBehaviour
     public void AddKey(string color)
     {
         keys.Add(color);
-        Debug.Log("Obtuviste la llave " + color);
     }
 
     public bool HasKey(string color)

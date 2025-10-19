@@ -2104,7 +2104,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.9433962, g: 0.004449993, b: 0.004449993, a: 1}
   m_FlipX: 0
@@ -3913,7 +3913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorColor: Green
-  sceneToLoad: SalaPrincipal
+  sceneToLoad: Piso1
   spawnPosition: {x: 0, y: 0}
   changeScene: 1
 --- !u!1001 &1119719076
@@ -4160,7 +4160,6 @@ GameObject:
   - component: {fileID: 1183705623}
   - component: {fileID: 1183705624}
   - component: {fileID: 1183705625}
-  - component: {fileID: 1183705626}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -4189,6 +4188,7 @@ MonoBehaviour:
   maxStamina: 100
   staminaDrain: 20
   staminaRegen: 10
+  health: 10
 --- !u!212 &1183705618
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4363,18 +4363,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1183705626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183705616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9ce43618faf93a40a15db69f2a14990, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1186308644
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4597,7 +4585,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -4525849557649390856, guid: 9e131a316b2a0704abed00bb71d2cb48, type: 3}
   m_Color: {r: 0, g: 0.69141865, b: 1, a: 1}
   m_FlipX: 0
@@ -5186,7 +5174,7 @@ MonoBehaviour:
   m_LightType: 4
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.11320752, g: 0.10946953, b: 0.10946953, a: 1}
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0

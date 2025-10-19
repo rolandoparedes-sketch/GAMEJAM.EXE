@@ -24,7 +24,7 @@ public class KeyCollector : MonoBehaviour
                 {
                     playerKeys.AddKey(keyScript.keyColor);
                     Destroy(key.gameObject);
-                    Debug.Log("Llave recogida: " + keyScript.keyColor);
+                    
                 }
             }
         }
