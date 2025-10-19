@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
-
 public class Main_Enemy : MonoBehaviour
 {
     public Transform player;
@@ -9,19 +9,18 @@ public class Main_Enemy : MonoBehaviour
     public float stopDistance = 0.5f;
     public float visionRange = 10f;
     public int health = 3;
-    public float respawnDelay = 7f; 
+    public float respawnDelay = 10f;
 
     private bool isIlluminated = false;
     private Rigidbody2D rb;
-
     private bool isConfused = false;
     private float confuseTimer = 0f;
-    private Vector2 initialPosition; 
+    private Vector2 initialPosition;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); 
-        initialPosition = transform.position; 
+        rb = GetComponent<Rigidbody2D>();
+        initialPosition = transform.position;
 
         Collider2D col = GetComponent<Collider2D>();
         if (col != null)
@@ -32,7 +31,6 @@ public class Main_Enemy : MonoBehaviour
     {
         if (player == null || flashlight == null) return;
 
-        
         if (isConfused)
         {
             confuseTimer -= Time.deltaTime;
@@ -45,7 +43,17 @@ public class Main_Enemy : MonoBehaviour
 
         DetectFlashlightHit();
 
-        if (!isIlluminated)
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+        
+        if (isIlluminated)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
+        
+        if (distanceToPlayer <= visionRange)
         {
             ChasePlayer();
         }
@@ -64,7 +72,7 @@ public class Main_Enemy : MonoBehaviour
         {
             rb.linearVelocity = direction * chaseSpeed;
 
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // Convertir a grados
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle - 90);
         }
         else
@@ -75,48 +83,60 @@ public class Main_Enemy : MonoBehaviour
 
     void DetectFlashlightHit()
     {
-        Vector2 lightDir = flashlight.up; // Asumiendo que la luz apunta hacia arriba del transform
-        int layerMask = ~LayerMask.GetMask("Player");// Ignorar la capa del jugador
-        RaycastHit2D hit = Physics2D.Raycast(flashlight.position, lightDir, visionRange, layerMask);// Ignorar la capa del jugador
-
-        isIlluminated = hit.collider != null && hit.collider.transform == transform;// Verificar si el rayo golpea este enemigo
+        Vector2 lightDir = flashlight.up;
+        int layerMask = ~LayerMask.GetMask("Player");
+        RaycastHit2D hit = Physics2D.Raycast(flashlight.position, lightDir, visionRange, layerMask);
+        isIlluminated = hit.collider != null && hit.collider.transform == transform;
     }
 
-    // Recibir daño
+    
     public void TakeDamage(int dmg)
     {
         health -= dmg;
         if (health <= 0)
         {
+            Debug.Log(" Enemigo murió.");
             StartCoroutine(RespawnAfterDelay());
-            gameObject.SetActive(false); 
+            gameObject.SetActive(false);
         }
     }
 
-    
-    public void Confuse(float duration) 
+    public void Confuse(float duration)
     {
-        isConfused = true; // Activar estado confundido
-        confuseTimer = duration; // Establecer temporizador de confusión
+        isConfused = true;
+        confuseTimer = duration;
     }
 
-    
-    IEnumerator RespawnAfterDelay() // Nueva función de respawn
+    IEnumerator RespawnAfterDelay()
     {
         yield return new WaitForSeconds(respawnDelay);
+        transform.position = initialPosition;
+        health = 3;
+        isConfused = false;
+        gameObject.SetActive(true);
+        Debug.Log(" Enemigo reapareció. ¡Escóndete!");
+    }
 
+    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            Debug.Log(" El enemigo atrapó al jugador");
 
-        Vector2 randomOffset = new Vector2(Random.Range(-5f, 5f), Random.Range(-5f, 5f)); // Desplazamiento aleatorio
-        transform.position = initialPosition + randomOffset; // Reposicionar con desplazamiento aleatorio
+           
+            collision.gameObject.SetActive(false);
 
-        health = 3; 
-        isConfused = false; 
-        gameObject.SetActive(true); 
+            
+            StartCoroutine(ChangeSceneAfterDelay(1.5f));
+        }
+    }
+
+    IEnumerator ChangeSceneAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("Menu"); 
     }
 }
-
-
-
-
 
 

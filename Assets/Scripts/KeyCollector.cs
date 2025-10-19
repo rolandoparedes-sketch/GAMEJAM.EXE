@@ -13,7 +13,7 @@ public class KeyCollector : MonoBehaviour
 
     void DetectAndCollectKeys()
     {
-        Collider2D[] nearbyKeys = Physics2D.OverlapCircleAll(transform.position, pickupRange, keyLayer); // Detect keys within range
+        Collider2D[] nearbyKeys = Physics2D.OverlapCircleAll(transform.position, pickupRange, keyLayer);
 
         foreach (Collider2D key in nearbyKeys)
         {

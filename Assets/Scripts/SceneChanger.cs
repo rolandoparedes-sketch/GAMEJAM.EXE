@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-    [SerializeField] private string sceneName; // Nombre de la escena a cargar
+    [SerializeField] private string sceneName; 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
