@@ -1,19 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerKeys : MonoBehaviour
 {
-    public int totalKeys = 0;
-    public int requiredKeys = 3;
+    private HashSet<string> keys = new HashSet<string>();
 
-    public void AddKey()
+    public void AddKey(string color)
     {
-        totalKeys++;
-        Debug.Log("Llaves recolectadas: " + totalKeys);
+        keys.Add(color);
+        Debug.Log("Obtuviste la llave " + color);
+    }
 
-        if (totalKeys >= requiredKeys)
-        {
-            Debug.Log("¡Todas las llaves recolectadas!");
-            
-        }
+    public bool HasKey(string color)
+    {
+        return keys.Contains(color);
     }
 }

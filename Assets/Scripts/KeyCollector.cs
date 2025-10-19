@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class KeyCollector : MonoBehaviour
 {
-    public float pickupRange = 1.2f; 
-    public LayerMask keyLayer;       
-    public PlayerKeys playerKeys;    
+    public float pickupRange = 1.2f;
+    public LayerMask keyLayer;
+    public PlayerKeys playerKeys;
 
     void Update()
     {
@@ -19,9 +19,13 @@ public class KeyCollector : MonoBehaviour
         {
             if (key.CompareTag("Key"))
             {
-                playerKeys.AddKey(); 
-                Destroy(key.gameObject);
-                Debug.Log("Llave recogida");
+                Keys keyScript = key.GetComponent<Keys>();
+                if (keyScript != null)
+                {
+                    playerKeys.AddKey(keyScript.keyColor);
+                    Destroy(key.gameObject);
+                    Debug.Log("Llave recogida: " + keyScript.keyColor);
+                }
             }
         }
     }
