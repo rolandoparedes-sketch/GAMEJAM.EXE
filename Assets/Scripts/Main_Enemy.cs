@@ -20,7 +20,7 @@ public class Main_Enemy : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>(); 
         initialPosition = transform.position; 
 
         Collider2D col = GetComponent<Collider2D>();
@@ -64,7 +64,7 @@ public class Main_Enemy : MonoBehaviour
         {
             rb.linearVelocity = direction * chaseSpeed;
 
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // Convertir a grados
             transform.rotation = Quaternion.Euler(0, 0, angle - 90);
         }
         else
@@ -75,11 +75,11 @@ public class Main_Enemy : MonoBehaviour
 
     void DetectFlashlightHit()
     {
-        Vector2 lightDir = flashlight.up;
-        int layerMask = ~LayerMask.GetMask("Player");
-        RaycastHit2D hit = Physics2D.Raycast(flashlight.position, lightDir, visionRange, layerMask);
+        Vector2 lightDir = flashlight.up; // Asumiendo que la luz apunta hacia arriba del transform
+        int layerMask = ~LayerMask.GetMask("Player");// Ignorar la capa del jugador
+        RaycastHit2D hit = Physics2D.Raycast(flashlight.position, lightDir, visionRange, layerMask);// Ignorar la capa del jugador
 
-        isIlluminated = hit.collider != null && hit.collider.transform == transform;
+        isIlluminated = hit.collider != null && hit.collider.transform == transform;// Verificar si el rayo golpea este enemigo
     }
 
     // Recibir daño
@@ -94,20 +94,20 @@ public class Main_Enemy : MonoBehaviour
     }
 
     
-    public void Confuse(float duration)
+    public void Confuse(float duration) 
     {
-        isConfused = true;
-        confuseTimer = duration;
+        isConfused = true; // Activar estado confundido
+        confuseTimer = duration; // Establecer temporizador de confusión
     }
 
     
-    IEnumerator RespawnAfterDelay()
+    IEnumerator RespawnAfterDelay() // Nueva función de respawn
     {
         yield return new WaitForSeconds(respawnDelay);
 
-        
-        Vector2 randomOffset = new Vector2(Random.Range(-5f, 5f), Random.Range(-5f, 5f));
-        transform.position = initialPosition + randomOffset;
+
+        Vector2 randomOffset = new Vector2(Random.Range(-5f, 5f), Random.Range(-5f, 5f)); // Desplazamiento aleatorio
+        transform.position = initialPosition + randomOffset; // Reposicionar con desplazamiento aleatorio
 
         health = 3; 
         isConfused = false; 
