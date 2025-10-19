@@ -3,15 +3,19 @@ using UnityEngine;
 
 public class PlayerKeys : MonoBehaviour
 {
-    private HashSet<string> keys = new HashSet<string>();
+    public List<string> keys = new List<string>();
 
-    public void AddKey(string color)
+    public void AddKey(string keyColor)
     {
-        keys.Add(color);
+        if (!keys.Contains(keyColor))
+        {
+            keys.Add(keyColor);
+            Debug.Log("Llave " + keyColor + " obtenida");
+        }
     }
 
-    public bool HasKey(string color)
+    public bool HasKey(string keyColor)
     {
-        return keys.Contains(color);
+        return keys.Contains(keyColor);
     }
 }

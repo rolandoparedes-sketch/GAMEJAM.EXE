@@ -3,10 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class DoorTeleport : MonoBehaviour
 {
-    public string doorColor;        // Color que requiere la puerta
-    public string sceneToLoad;      // Nombre de la escena a cargar (debe estar agregada en Build Settings)
-    public Vector2 spawnPosition;   // Coordenadas destino si no cambias de escena
-    public bool changeScene = true; // Cambiar de escena o solo moverse dentro de la misma
+    public string doorColor;        
+    public string sceneToLoad;      
+    public Vector2 spawnPosition;   
+    public bool changeScene = true; 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
