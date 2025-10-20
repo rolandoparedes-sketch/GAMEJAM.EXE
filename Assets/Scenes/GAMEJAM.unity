@@ -9131,7 +9131,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8868141708688303923, guid: da2e86b8be00b9946924f1f16af9a1f8, type: 3}
       propertyPath: m_Name
-      value: GreenDoor
+      value: BlackDoor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

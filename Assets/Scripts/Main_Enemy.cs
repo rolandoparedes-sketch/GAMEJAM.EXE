@@ -127,7 +127,6 @@ public class Main_Enemy : MonoBehaviour
            
             collision.gameObject.SetActive(false);
 
-            
             StartCoroutine(ChangeSceneAfterDelay(1.5f));
         }
     }
@@ -135,7 +134,7 @@ public class Main_Enemy : MonoBehaviour
     IEnumerator ChangeSceneAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene("Menu"); 
+        SceneManager.LoadScene("GameOver"); 
     }
 }
 
